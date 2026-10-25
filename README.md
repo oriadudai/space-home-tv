@@ -24,16 +24,17 @@ Launcher לאנדרואיד TV / Google TV: רובוט מנופף, כוכבים,
 
 ## להפוך אותו למסך הבית
 
-לחצי על כפתור ה-Home בשלט.
-- אם מופיעה שאלה איזה מסך בית להשתמש – לבחור **בית בחלל** ו"תמיד".
-- **ב-Google TV** בדרך כלל אין שאלה כזו, והמסך המקורי חוזר. אפשר לכבות את המסך המקורי בפקודה:
-  ```
-  adb shell pm disable-user --user 0 com.google.android.apps.tv.launcherx
-  ```
-  כדאי לעשות את זה רק אחרי שבדקת שהכול עובד. כדי להחזיר את המסך המקורי:
-  ```
-  adb shell pm enable com.google.android.apps.tv.launcherx
-  ```
+ב-Google TV כפתור ה-Home פותח תמיד את מסך הבית של Google. **אל תכבי את המסך של Google** (`pm disable-user`): בלעדיו הטלוויזיה נשארת עם מסך שחור.
+
+במקום זה, באפליקציה יש שירות נגישות (`HomeWatcherService`) שמזהה מתי המסך של Google נפתח ופותח מיד את מסך החלל. מפעילים אותו פעם אחת:
+```
+adb shell settings put secure enabled_accessibility_services com.dudai.spacehome/com.dudai.spacehome.HomeWatcherService
+adb shell settings put secure accessibility_enabled 1
+```
+כדי לבטל:
+```
+adb shell settings delete secure enabled_accessibility_services
+```
 
 ## הגדרות שאפשר לשנות (בראש MainActivity.java)
 
